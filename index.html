@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .options {
+            margin: 20px;
+            text-align: center;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+        }
+
+        button.selected {
+            background-color: #007bff; /* Highlighted color */
+            color: white;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%; /* Adjust height */
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ccc; /* Optional styling */
+        }
+
+        #progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ccc;
+            margin-top: 20px;
+        }
+
+        #progress {
+            height: 10px;
+            width: 0%;
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose a Model</h1>
+    <div class="options">
+        <button onclick="showModel('1000_csmt2_samgeo.glb', this)">CSMT</button>
+        <button onclick="showModel('1000_hampi_samgeo.glb', this)">Hampi</button>
+        <button onclick="showModel('1000_pattadakal_samgeo.glb', this)">Pattadakal</button>
+        <button onclick="showModel('1000_sun_konark_samgeo.glb', this)">Sun Konark</button>
+    </div>
+
+    <div id="progress-bar">
+        <div id="progress"></div>
+    </div>
+
+    <model-viewer id="viewer" src="" alt="3D Model Viewer" auto-rotate camera-controls></model-viewer>
+
+    <script>
+        function showModel(modelPath, button) {
+            // Update the model-viewer src
+            const viewer = document.getElementById('viewer');
+            viewer.setAttribute('src', modelPath);
+
+            // Highlight the selected button
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+
+            // Simulate loading with the progress bar
+            const progressBar = document.getElementById('progress');
+            progressBar.style.width = '0%'; // Reset progress bar
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(interval); // Stop updating progress
+                }
+            }, 100); // Simulate loading progress every 100ms
+        }
+    </script>
+</body>
+</html>
